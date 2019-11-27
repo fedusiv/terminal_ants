@@ -8,15 +8,19 @@ public class Engine {
 
     Console console;
     Terrain terrain;
+    Timer timer;
 
+    static int step = 0;
+    static int run_steps = 0;
     public Engine() throws IOException {
         console = Console.getInstance();
         terrain = Terrain.getInstance();
-
+        timer = new Timer("EngineTimer");
 
         // Until that point all set-up must be ended
         console.clean_console();
-        timerTaskInit();    // run timer Task
+        console.draw(terrain,step);
+        mainLoop();
     }
 
     private void timerTaskInit()
@@ -30,7 +34,6 @@ public class Engine {
                 }
             }
         };
-        Timer timer = new Timer("EngineTimer");
 
         long delay  = 0L;
         long period = 1000L;
@@ -38,7 +41,16 @@ public class Engine {
     }
 
     private void timerTask() throws IOException {
-        console.draw(terrain);
+        console.draw(terrain,step);
     }
 
+    private void mainLoop() throws IOException {
+        while ( true)
+        {
+            if ( run_steps == 0) {
+                console.readCommand();
+                console.draw(terrain, step);
+            }
+        }
+    }
 }

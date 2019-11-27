@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 
 public class Console {
 
-    private int step = 0;
-
     private static Console singleton = null;
     private  Console()
     {
@@ -18,6 +16,14 @@ public class Console {
         if(singleton == null) singleton = new Console();
         return singleton;
     }
+
+    public String readCommand() throws IOException {
+        String cmd = "";
+        java.io.BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        cmd = in.readLine();
+        return cmd;
+    }
+
     public int  initTerrainSize() throws IOException {
         int size;
         System.out.println("Enter size of Terrain square");
@@ -32,22 +38,19 @@ public class Console {
         System.out.print("\033[H");
         System.out.print("\033[2J");
     }
-    private void draw_step()
+    private void draw_step(int step)
     {
         System.out.print('\n');
         System.out.println("Step: " + step);
-        step++;
+
     }
 
-    public void draw(Terrain terrain) throws IOException {
+    public void draw(Terrain terrain, int step) throws IOException {
         System.out.print("\033[H");
-        draw_step();
+        draw_step(step);
         drawTerrain(terrain);
         drawEnterField();
         System.out.print('\n');
-        /*java.io.BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String string =  in.readLine();*/
-
 
     }
 
