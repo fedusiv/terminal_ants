@@ -46,12 +46,11 @@ public class Console {
     }
 
     public void draw(Terrain terrain, int step) throws IOException {
+        clean_console();
         System.out.print("\033[H");
         draw_step(step);
         drawTerrain(terrain);
         drawEnterField();
-        System.out.print('\n');
-
     }
 
     private void drawTerrain(Terrain terrain)
@@ -69,7 +68,8 @@ public class Console {
     private void drawEnterField()
     {
         System.out.print('\n');
-        System.out.print(" > ... ");
+        System.out.println(" > ... ");
+        System.out.print("> ");
 
     }
 

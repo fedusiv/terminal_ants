@@ -1,55 +1,54 @@
 package com.engine;
 
+import com.cmd.Cmd;
+import com.cmd.Parser;
+
 import java.io.IOException;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Engine {
 
     Console console;
     Terrain terrain;
     Timer timer;
+    Parser parser;
 
     static int step = 0;
     static int run_steps = 0;
-    public Engine() throws IOException {
+    static int step_time_ms = 1000;
+    public Engine() throws IOException, InterruptedException {
         console = Console.getInstance();
         terrain = Terrain.getInstance();
         timer = new Timer("EngineTimer");
-
+        parser = Parser.getInstance();
         // Until that point all set-up must be ended
         console.clean_console();
         console.draw(terrain,step);
         mainLoop();
     }
 
-    private void timerTaskInit()
-    {
-        TimerTask repeatedTask = new TimerTask() {
-            public void run() {
-                try {
-                    timerTask();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
 
-        long delay  = 0L;
-        long period = 1000L;
-        timer.scheduleAtFixedRate(repeatedTask, delay, period);
-    }
-
-    private void timerTask() throws IOException {
+    private void runStep() throws IOException {
+        step ++;
         console.draw(terrain,step);
+        run_steps--;
     }
 
-    private void mainLoop() throws IOException {
+    private void mainLoop() throws IOException, InterruptedException {
+        String s_cmd = "";
         while ( true)
         {
             if ( run_steps == 0) {
-                console.readCommand();
+                s_cmd = console.readCommand();
+                Cmd cmd = parser.parseCommand(s_cmd);
                 console.draw(terrain, step);
+                if ( cmd.type == CmdEnum.RUN) {
+                    run_steps = cmd.run_steps;
+                }
+            }else
+            {
+                runStep();
+                Thread.sleep(step_time_ms);
             }
         }
     }
