@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="terminal_ants:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/terminal_ants_jar</output-path>
+    <root id="archive" name="terminal_ants.jar">
+      <element id="module-output" name="terminal_ants" />
+    </root>
+  </artifact>
+</component>
