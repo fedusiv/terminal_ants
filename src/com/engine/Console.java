@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 public class Console {
 
+    private int step = 0;
 
     private static Console singleton = null;
     private  Console()
@@ -31,13 +32,22 @@ public class Console {
         System.out.print("\033[H");
         System.out.print("\033[2J");
     }
-
-    public void draw(Terrain terrain)
+    private void draw_step()
     {
+        System.out.print('\n');
+        System.out.println("Step: " + step);
+        step++;
+    }
+
+    public void draw(Terrain terrain) throws IOException {
         System.out.print("\033[H");
+        draw_step();
         drawTerrain(terrain);
         drawEnterField();
         System.out.print('\n');
+        /*java.io.BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String string =  in.readLine();*/
+
 
     }
 

@@ -23,7 +23,11 @@ public class Engine {
     {
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
-                timerTask();
+                try {
+                    timerTask();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
         Timer timer = new Timer("EngineTimer");
@@ -33,8 +37,7 @@ public class Engine {
         timer.scheduleAtFixedRate(repeatedTask, delay, period);
     }
 
-    private void timerTask()
-    {
+    private void timerTask() throws IOException {
         console.draw(terrain);
     }
 
