@@ -1,5 +1,9 @@
 package com.enums;
 
 public enum CmdEnum {
-    RUN
+    RUN,
+    GOUP,
+    GODOWN,
+    GOLEFT,
+    GORIGHT
 }

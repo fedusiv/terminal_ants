@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 public class Console {
 
     private static Console singleton = null;
+    private String last_cmd = "";
     private  Console()
     {
 
@@ -33,6 +34,14 @@ public class Console {
         return size;
     }
 
+    public void draw(Terrain terrain, int step) throws IOException {
+        clean_console();
+        System.out.print("\033[H");
+        draw_step(step);
+        drawTerrain(terrain);
+        drawEnterField();
+    }
+
     public void clean_console()
     {
         System.out.print("\033[H");
@@ -45,13 +54,7 @@ public class Console {
 
     }
 
-    public void draw(Terrain terrain, int step) throws IOException {
-        clean_console();
-        System.out.print("\033[H");
-        draw_step(step);
-        drawTerrain(terrain);
-        drawEnterField();
-    }
+
 
     private void drawTerrain(Terrain terrain)
     {
@@ -68,9 +71,14 @@ public class Console {
     private void drawEnterField()
     {
         System.out.print('\n');
-        System.out.println(" > ... ");
+        System.out.println(" > ... " + last_cmd);
         System.out.print("> ");
 
     }
+    public void setLastCmd(String string)
+    {
+        last_cmd = string;
+    }
+
 
 }

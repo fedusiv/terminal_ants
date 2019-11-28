@@ -4,6 +4,7 @@ import com.cmd.Cmd;
 import com.cmd.Parser;
 import com.enums.CmdEnum;
 
+
 import java.io.IOException;
 import java.util.Timer;
 
@@ -35,17 +36,27 @@ public class Engine {
         run_steps--;
     }
 
+    private void executeCmd(Cmd cmd)
+    {
+        console.setLastCmd(cmd.string);
+        if ( cmd.type == CmdEnum.RUN)
+        {
+            run_steps = cmd.run_steps;
+        }
+
+    }
+
+
     private void mainLoop() throws IOException, InterruptedException {
         String s_cmd = "";
         while ( true)
         {
-            if ( run_steps == 0) {
+            if ( run_steps == 0)
+            {
+                console.draw(terrain,step);
                 s_cmd = console.readCommand();
                 Cmd cmd = parser.parseCommand(s_cmd);
-                console.draw(terrain, step);
-                if ( cmd.type == CmdEnum.RUN) {
-                    run_steps = cmd.run_steps;
-                }
+                executeCmd(cmd);
             }else
             {
                 runStep();
