@@ -30,6 +30,11 @@ public class Console {
         System.out.println("Enter size of Terrain square");
         java.io.BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         size = Integer.parseInt(in.readLine());
+        if ( size > 97 )
+        {
+            System.out.println("Maximum size 97 ");
+            size = 97;
+        }
         System.out.println("Size of Terrain square is " + size);
         return size;
     }

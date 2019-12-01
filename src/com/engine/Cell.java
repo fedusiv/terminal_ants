@@ -2,6 +2,8 @@ package com.engine;
 
 import com.enums.CellType;
 
+import static java.lang.String.format;
+
 public class Cell {
 
     CellType type;
@@ -21,10 +23,10 @@ public class Cell {
         switch (type)
         {
             case MARKING:
-                symbol = Integer.toString(order_num);
+                symbol = format("%02d", order_num);
                 break;
             case EMPTY:
-                symbol = ".";
+                symbol = " .";
                 break;
             case SPACE:
                 symbol = " ";
