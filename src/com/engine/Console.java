@@ -8,6 +8,8 @@ public class Console {
 
     private static Console singleton = null;
     private String last_cmd = "";
+    private int map_display_size = 16;   // how many rows and columns will be shown on gui
+    private int[] map_corner_point = {1, 1};// point of minimal id cells, which should be shown. At start it is 1, 1
     private  Console()
     {
 
@@ -43,7 +45,7 @@ public class Console {
         clean_console();
         System.out.print("\033[H");
         draw_step(step);
-        drawTerrain(terrain);
+        drawMap(terrain);
         drawEnterField();
     }
 
@@ -61,11 +63,11 @@ public class Console {
 
 
 
-    private void drawTerrain(Terrain terrain)
+    private void drawMap(Terrain terrain)
     {
-        for ( int i = 0; i < terrain.matrix_size; i++ ) {
+        for (int i = 0; i < map_display_size; i++ ) {
             System.out.print('\n');
-            for (int j = 0; j < terrain.matrix_size; j++) {
+            for (int j = 0; j < map_display_size; j++) {
                 String symbol = terrain.cell(i,j).symbol();
                 System.out.print( symbol + " " );
             }
