@@ -36,12 +36,21 @@ public class Engine {
         run_steps--;
     }
 
-    private void executeCmd(Cmd cmd)
-    {
+    private void executeCmd(Cmd cmd) throws IOException {
+        if ( cmd.type == CmdEnum.ERROR)
+        {
+            console.setLastCmd("Wrong command");
+            return;
+        }
         console.setLastCmd(cmd.string);
         if ( cmd.type == CmdEnum.RUN)
         {
             run_steps = cmd.run_steps;
+        }
+        if ( cmd.type == CmdEnum.GOTO )
+        {
+            console.set_map_coor_point(cmd.point[0], cmd.point[1]);
+            console.draw(terrain,step);
         }
 
     }

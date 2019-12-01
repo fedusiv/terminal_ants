@@ -1,7 +1,9 @@
 package com.cmd;
 
+import com.engine.Terrain;
 import com.enums.CmdEnum;
 
+import com.engine.Console;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,9 +11,11 @@ import java.io.IOException;
 public class Parser {
 
     private static Parser singleton = null;
-
+    private Console console;
+    private Terrain terrain;
     private Parser () throws IOException {
-
+        console = Console.getInstance();
+        terrain = Terrain.getInstance();
     }
 
     public synchronized static Parser getInstance() throws IOException {
@@ -31,6 +35,9 @@ public class Parser {
                 break;
             case "gd":
                 cmd = cmd_gd(tokens);
+                break;
+            case "gt":
+                cmd = cmd_gt(tokens);
                 break;
 
         }
@@ -52,10 +59,34 @@ public class Parser {
         return cmd;
     }
 
+    private Cmd cmd_gt(String[] tokens)
+    {
+        Cmd cmd = new Cmd(CmdEnum.GOTO);
+        if ( tokens.length > 1)
+        {
+            cmd.point[0] = Integer.parseInt(tokens[1]) - 1;
+            cmd.point[1] = Integer.parseInt(tokens[2]) - 1;
+        }else
+        {
+            cmd.type = CmdEnum.ERROR;
+            return cmd;
+        }
+        // check if maybe entered out of array value
+        if ( cmd.point[0] + console.mapDisplaySize() > terrain.terrain_size )
+        {
+            cmd.point[0] = terrain.terrain_size - console.mapDisplaySize();
+        }
+        if ( cmd.point[1] + console.mapDisplaySize() > terrain.terrain_size )
+        {
+            cmd.point[1] = terrain.terrain_size - console.mapDisplaySize();
+        }
+        cmd.string = "Go to coordinates  " + ( cmd.point[0] + 1 ) + " " +  ( cmd.point[1]+ 1) ;
+        return cmd;
+    }
     private Cmd cmd_gd(String[] tokens)
     {
         Cmd cmd = new Cmd(CmdEnum.GODOWN);
-        if ( tokens.length > 1)
+        if ( tokens.length > 3)
         {
             cmd.map_steps = Integer.parseInt(tokens[1]);
         }else

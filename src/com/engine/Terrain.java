@@ -7,8 +7,8 @@ import java.io.IOException;
 public class Terrain {
 
     Console console;
-    final int terrain_size;
-    final int matrix_size;
+    public final int terrain_size;
+    public final int matrix_size;
     private Cell[][] matrix;
 
     private static Terrain singleton = null;

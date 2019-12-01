@@ -9,7 +9,7 @@ public class Console {
     private static Console singleton = null;
     private String last_cmd = "";
     private int map_display_size = 16;   // how many rows and columns will be shown on gui
-    private int[] map_corner_point = {1, 1};// point of minimal id cells, which should be shown. At start it is 1, 1
+    private int[] map_coor_point = {0, 0};// point of minimal id cells, which should be shown.
     private  Console()
     {
 
@@ -65,13 +65,28 @@ public class Console {
 
     private void drawMap(Terrain terrain)
     {
-        for (int i = 0; i < map_display_size; i++ ) {
+        for (int i = 0; i < map_display_size + 2; i++ ) {
             System.out.print('\n');
-            for (int j = 0; j < map_display_size; j++) {
-                String symbol = terrain.cell(i,j).symbol();
+            for (int j = 0; j < map_display_size + 2; j++) {
+                String symbol = null;
+                if ( i == 0 || i == 1)
+                {
+                    symbol = terrain.cell(i,j+ map_coor_point[1]).symbol();
+                }else
+                if ( j == 0 || j == 1)
+                {
+                    symbol = terrain.cell(i+ map_coor_point[0],j).symbol();
+                }else
+                {
+                    symbol = terrain.cell(i+ map_coor_point[0] , j+ map_coor_point[1] ).symbol();
+                }
                 System.out.print( symbol + " " );
+
             }
         }
+
+
+
         System.out.print('\n');
 
     }
@@ -87,5 +102,14 @@ public class Console {
         last_cmd = string;
     }
 
+    public void set_map_coor_point( int x, int y)
+    {
+        map_coor_point[0] = x;
+        map_coor_point[1] = y;
+    }
+    public int mapDisplaySize()
+    {
+        return map_display_size;
+    }
 
 }
