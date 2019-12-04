@@ -14,7 +14,7 @@ public class Engine {
     Terrain terrain;
     Timer timer;
     Parser parser;
-
+    UnitBase unitBase;
     static int step = 0;
     static int run_steps = 0;
     static int step_time_ms = 1000;
@@ -23,6 +23,7 @@ public class Engine {
         terrain = Terrain.getInstance();
         timer = new Timer("EngineTimer");
         parser = Parser.getInstance();
+        unitBase = UnitBase.getInstance();
         // Until that point all set-up must be ended
         console.clean_console();
         console.draw(terrain,step);
@@ -32,6 +33,7 @@ public class Engine {
 
     private void runStep() throws IOException {
         step ++;
+        unitBase.stepUnits();
         console.draw(terrain,step);
         run_steps--;
     }
@@ -52,7 +54,12 @@ public class Engine {
             console.set_map_coor_point(cmd.point[0], cmd.point[1]);
             console.draw(terrain,step);
         }
-
+        if ( cmd.type == CmdEnum.PLACE)
+        {
+            int unit_id  = unitBase.createNewUnit(cmd);
+            terrain.addUnitToTerrain(cmd, unit_id);
+            console.draw(terrain,step);
+        }
     }
 
 

@@ -1,8 +1,13 @@
 package com.engine;
 
+import com.cmd.Cmd;
 import com.enums.CellType;
+import com.units.Plant;
+import com.units.Unit;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class Terrain {
 
@@ -10,6 +15,8 @@ public class Terrain {
     public final int terrain_size;
     public final int matrix_size;
     private Cell[][] matrix;
+
+
 
     private static Terrain singleton = null;
     public synchronized static Terrain getInstance() throws IOException {
@@ -22,6 +29,9 @@ public class Terrain {
         matrix_size = terrain_size + 2;
         createMatrix();
     }
+
+
+
 
     private void createMatrix()
     {
@@ -58,5 +68,12 @@ public class Terrain {
         {
             return matrix[i][j];
         }
+
+     public void addUnitToTerrain(Cmd cmd, int id)
+     {
+         matrix[cmd.point[0] + 2][cmd.point[1] + 2].unit_id = id;
+         matrix[cmd.point[0] + 2][cmd.point[1] + 2].type = CellType.UNIT;
+     }
+
 
 }

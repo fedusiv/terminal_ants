@@ -4,8 +4,8 @@ import com.engine.Terrain;
 import com.enums.CmdEnum;
 
 import com.engine.Console;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import com.enums.UnitsEnum;
+
 import java.io.IOException;
 
 public class Parser {
@@ -39,7 +39,9 @@ public class Parser {
             case "gt":
                 cmd = cmd_gt(tokens);
                 break;
-
+            case "place":
+                cmd = cmd_place(tokens);
+                break;
         }
 
         return cmd;
@@ -71,6 +73,11 @@ public class Parser {
             cmd.type = CmdEnum.ERROR;
             return cmd;
         }
+
+        if ( cmd.point[0] < 0 ) cmd.point[0] = 0;
+        if ( cmd.point[1] < 0 ) cmd.point[1] = 0;
+
+
         // check if maybe entered out of array value
         if ( cmd.point[0] + console.mapDisplaySize() > terrain.terrain_size )
         {
@@ -94,6 +101,40 @@ public class Parser {
             cmd.map_steps = 1;
         }
         cmd.string = "Go down in map  " + Integer.toString(cmd.run_steps);
+        return cmd;
+    }
+
+    private Cmd cmd_place(String[] tokens)
+    {
+        Cmd cmd = new Cmd(CmdEnum.PLACE);
+        if ( tokens.length < 4) {
+            cmd.type = CmdEnum.ERROR;
+            cmd.string = "Wrong command params";
+            return cmd;
+        }
+
+        switch (tokens[1])
+        {
+            case "plant":
+                cmd.unit = UnitsEnum.PLANT;
+                break;
+            default:
+                cmd.string = "Wrong unit name";
+                cmd.type = CmdEnum.ERROR;
+                break;
+        }
+        if ( cmd.type == CmdEnum.ERROR )
+        {
+            return cmd;
+        }
+        cmd.point[0] = Integer.parseInt(tokens[2]) - 1;
+        cmd.point[1] = Integer.parseInt(tokens[3]) - 1;
+        if ( cmd.point[0] > terrain.terrain_size  || cmd.point[1] > terrain.terrain_size)
+        {
+            cmd.string = "Wrong coordinates";
+            cmd.type = CmdEnum.ERROR;
+        }
+        cmd.string = "Add new plant at " + tokens[2] + " " + tokens[3];
         return cmd;
     }
 

@@ -7,5 +7,6 @@ public enum CmdEnum {
     GODOWN,
     GOLEFT,
     GORIGHT,
-    GOTO
+    GOTO,
+    PLACE
 }
