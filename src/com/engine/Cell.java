@@ -11,7 +11,8 @@ public class Cell {
     CellType type;
     int order_num;      // only for marking
     final int id;
-    public int unit_id; // id, which unit take place here
+    private int unit_id; // id, which unit take place here
+    public Boolean has_unit = false; // if some unit takes place here, flag will be true
     private UnitBase unitBase;
     public  Cell (int id ) {
         this.id = id;
@@ -42,5 +43,8 @@ public class Cell {
 
         return symbol;
     }
+    public int unitId() { return  unit_id;}
+    public void setUnitId(int id) { unit_id = id; has_unit = true;}
+
 
 }

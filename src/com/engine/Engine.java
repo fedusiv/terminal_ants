@@ -44,7 +44,6 @@ public class Engine {
             console.setLastCmd("Wrong command");
             return;
         }
-        console.setLastCmd(cmd.string);
         if ( cmd.type == CmdEnum.RUN)
         {
             run_steps = cmd.run_steps;
@@ -56,10 +55,20 @@ public class Engine {
         }
         if ( cmd.type == CmdEnum.PLACE)
         {
-            int unit_id  = unitBase.createNewUnit(cmd);
-            terrain.addUnitToTerrain(cmd, unit_id);
-            console.draw(terrain,step);
+            if ( terrain.checkTerrainForUnit(cmd)) {
+                //Cell is not busy, can place
+                int unit_id = unitBase.createNewUnit(cmd);
+                terrain.addUnitToTerrain(cmd, unit_id);
+                console.draw(terrain, step);
+            }
+            else
+            {
+                // Cell is busy do nothing
+                cmd.string = "Cell is busy";
+                console.draw(terrain,step);
+            }
         }
+        console.setLastCmd(cmd.string);
     }
 
 

@@ -71,8 +71,17 @@ public class Terrain {
 
      public void addUnitToTerrain(Cmd cmd, int id)
      {
-         matrix[cmd.point[0] + 2][cmd.point[1] + 2].unit_id = id;
+         matrix[cmd.point[0] + 2][cmd.point[1] + 2].setUnitId(id);
          matrix[cmd.point[0] + 2][cmd.point[1] + 2].type = CellType.UNIT;
+     }
+     //Check if that cell is busy by another unit
+     public Boolean checkTerrainForUnit(Cmd cmd)
+     {
+         if (  matrix[cmd.point[0] + 2][cmd.point[1] + 2].has_unit)
+         {
+             return false;
+         }
+         return true;
      }
 
 
